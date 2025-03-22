@@ -1,0 +1,45 @@
+class Rule:
+    def __init__(self, premises, conclusion):
+        self.premises = premises
+        self.conclusion = conclusion
+
+    def apply(self, facts):
+        if all(premise in facts for premise in self.premises):
+            return self.conclusion
+        else:
+            return None
+
+class SimpleInferenceEngine:
+    def __init__(self, rules):
+        self.rules = rules
+
+    def infer(self, facts):
+        inferred_facts = set()
+        while True:
+            new_facts = set()
+            for rule in self.rules:
+                conclusion = rule.apply(facts)
+                if conclusion and conclusion not in facts:
+                    new_facts.add(conclusion)
+            if not new_facts:
+                break
+            inferred_facts.update(new_facts)
+            facts.update(new_facts)
+        return inferred_facts
+
+rules = [
+    Rule(["smokes", "coughs"], "lung disease"),
+    Rule(["lung disease"], "shortness of breath"),
+    Rule(["fever", "sore throat"], "cold"),
+    Rule(["cold"], "coughs")
+]
+
+inference_engine = SimpleInferenceEngine(rules)
+
+facts = {"smokes", "coughs"}
+
+inferred_facts = inference_engine.infer(facts)
+
+print("Inferred Facts:")
+for fact in inferred_facts:
+    print(fact)

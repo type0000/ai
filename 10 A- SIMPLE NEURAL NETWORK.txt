@@ -1,0 +1,23 @@
+import numpy as np
+from keras.models import Sequential
+from keras.layers import Dense, Input
+
+
+X_train = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+y_train = np.array([0, 0, 0, 1])  # Fixed incorrect closing bracket
+
+
+model = Sequential()
+model.add(Input(shape=(2,)))
+model.add(Dense(2, activation='relu'))  # Fixed missing equals sign
+model.add(Dense(1, activation='sigmoid'))  # Output layer with 1 neuron
+
+
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+
+model.fit(X_train, y_train, epochs=10, batch_size=4)  # Fixed incorrect assignment
+
+
+loss, accuracy = model.evaluate(X_train, y_train)  # Fixed incorrect assignment
+print("Accuracy:", accuracy)

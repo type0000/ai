@@ -1,0 +1,55 @@
+import math
+
+def minimax_alpha_beta(node, depth, alpha, beta, maximizingPlayer):
+    if depth == 0 or node.is_terminal():
+        return node.evaluate(), None
+
+    if maximizingPlayer:
+        maxEval = -math.inf
+        bestMove = None
+        for move in node.get_possible_moves():
+            child = node.make_move(move)
+            eval, _ = minimax_alpha_beta(child, depth - 1, alpha, beta, False)
+            if eval > maxEval:
+                maxEval = eval
+                bestMove = move
+            alpha = max(alpha, eval)
+            if beta <= alpha:
+                break  # Beta cut-off
+        return maxEval, bestMove
+
+    else:
+        minEval = math.inf
+        bestMove = None
+        for move in node.get_possible_moves():
+            child = node.make_move(move)
+            eval, _ = minimax_alpha_beta(child, depth - 1, alpha, beta, True)
+            if eval < minEval:
+                minEval = eval
+                bestMove = move
+            beta = min(beta, eval)
+            if beta <= alpha:
+                break  # Alpha cut-off
+        return minEval, bestMove
+
+
+class Node:
+    def __init__(self, value):
+        self.value = value
+
+    def evaluate(self):
+        return self.value
+
+    def is_terminal(self):
+        return True  # Always terminal for this example
+
+    def get_possible_moves(self):
+        return []  # No moves since it's terminal
+
+    def make_move(self, move):
+        return None  # No actual move processing in this simple example
+
+
+root = Node(3)
+best_score, best_move = minimax_alpha_beta(root, 3, -math.inf, math.inf, True)
+print("Best move:", best_move, "with score:", best_score)

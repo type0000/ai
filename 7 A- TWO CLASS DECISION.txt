@@ -1,0 +1,28 @@
+class DecisionNode:
+    def __init__(self, question, yes_branch, no_branch):
+        self.question = question
+        self.yes_branch = yes_branch
+        self.no_branch = no_branch
+
+def decide(activity):
+    if activity == 'walk':
+        return "Let's go for a walk!"
+    elif activity == 'stay_home':
+        return "Let's stay home and relax."
+
+def one_step_decision(weather):
+    if weather == 'sunny':
+        return decide('walk')  
+    else:
+        return decide('stay_home')
+    
+def main():
+    
+    decision_tree = DecisionNode("Is the weather sunny?", "walk", "stay_home")
+    
+    weather = input("What is the weather like? (sunny/rainy): ").lower()  
+    decision = one_step_decision(weather)
+    print(decision)
+
+if __name__ == "__main__":  
+    main()
