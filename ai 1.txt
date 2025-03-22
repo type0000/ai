@@ -1,0 +1,26 @@
+from collections import defaultdict
+
+jug1, jug2, goal = 4, 3, 2
+
+visited = defaultdict(lambda: False)
+
+def waterjug(amt1, amt2):
+    if (amt1 == goal and amt2 == 0) or (amt2 == goal and amt1 == 0):
+        print(amt1, amt2)
+        return True  # Fixed typo
+
+    if not visited[(amt1, amt2)]:  # Check if state has been visited
+        print(amt1, amt2)
+        visited[(amt1, amt2)] = True
+
+        return (waterjug(0, amt2) or
+                waterjug(amt1, 0) or
+                waterjug(jug1, amt2) or
+                waterjug(amt1, jug2) or
+                waterjug(amt1 + min(amt2, (jug1 - amt1)), amt2 - min(amt2, (jug1 - amt1))) or
+                waterjug(amt1 - min(amt1, (jug2 - amt2)), amt2 + min(amt1, (jug2 - amt2))))  # Fixed pouring logic
+
+    return False
+
+# Start from an empty state
+waterjug(0, 0)
